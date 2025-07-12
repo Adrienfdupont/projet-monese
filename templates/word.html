@@ -171,6 +171,14 @@
             transform: rotate(-70deg);
             content: "";
         }
+
+        #next-button {
+            font-size: 18px;
+        }
+
+        #favorisbutton {
+            font-size: 18px;
+        }
     </style>
 
 </head>
@@ -188,7 +196,7 @@
         </div>
         <p id="definition">WORD_DEFINITION</p>
         <p id="example">WORD_EXAMPLE</p>
-        <button onclick="window.location.href='/random/generate'">
+        <button id="next-button" onclick="window.location.href='/random/generate'">
             J'en veux un autre !
         </button>
 
@@ -206,7 +214,7 @@
                 <a href="/favoris/list">Favoris</a>
             </li>
             <li>
-                <a href="/word/list">Liste des mots</a>
+                <a href="/word/list">Mots</a>
             </li>
             <li>
                 <a href="/user/profile">Profile</a>
