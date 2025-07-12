@@ -43,6 +43,9 @@
 
     #liste-favoris li {
       margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
 
     #liste-favoris a {
@@ -166,9 +169,16 @@
       fetch(`/matches/list?word=${word}`)
         .then(response => response.json())
         .then(data => {
-          const matchSpan = document.createElement('span');
-          matchSpan.textContent = `Sauvegardé par : ${data.matches.join(', ')}`;
-          li.appendChild(matchSpan);
+          const matchDiv = document.createElement('div');
+          matchDiv.style.display = 'flex';
+          matchDiv.style.fontSize = '12px';
+          for (const match of data.matches) {
+            if (match === localStorage.getItem('username')) {
+              continue;
+            }
+            matchDiv.innerHTML += `♥ ${match}<br>`;
+          }
+          li.appendChild(matchDiv);
         });
     }
 
