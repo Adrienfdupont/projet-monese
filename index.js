@@ -8,7 +8,7 @@ app.use(express.json());
 app.get('/', (req, res) => {
   let html = fs.readFileSync('templates/home.html', 'utf8');
   try {
-    const stats = JSON.parse(fs.readFileSync('/data/stats.json', 'utf8'));
+    const stats = JSON.parse(fs.readFileSync('data/stats.json', 'utf8'));
     const top10 = Object.entries(stats).sort((a, b) => b[1] - a[1]).slice(0, 10);
     html = html.replace(/TOP_WORDS_TITLE/g, 'Top des mots les plus vus');
     html = html.replace(/TOP_FAVORIS/g, top10.map(([word, count]) => `<li>${word}</li>`).join(''));
@@ -20,7 +20,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/:word', (req, res) => {
-  const wordsData = JSON.parse(fs.readFileSync('/data/words.json', 'utf8'));
+  const wordsData = JSON.parse(fs.readFileSync('data/words.json', 'utf8'));
   const wordObj = wordsData.find(w => w.word && w.word.toLowerCase() === req.params.word.toLowerCase());
 
   if (!wordObj) {
@@ -41,7 +41,7 @@ app.get('/:word', (req, res) => {
 });
 
 app.get('/random/generate', (req, res) => {
-  const wordsData = JSON.parse(fs.readFileSync('/data/words.json', 'utf8'));
+  const wordsData = JSON.parse(fs.readFileSync('data/words.json', 'utf8'));
   const randomIndex = Math.floor(Math.random() * wordsData.length);
   const randomWord = wordsData[randomIndex];
   res.redirect(`/${randomWord.word}`);
@@ -54,7 +54,7 @@ app.get('/favoris/list', (req, res) => {
 
 app.get('/word/list', (req, res) => {
   const htmlList = fs.readFileSync('templates/list.html', 'utf8');
-  const wordsData = JSON.parse(fs.readFileSync('/data/words.json', 'utf8'));
+  const wordsData = JSON.parse(fs.readFileSync('data/words.json', 'utf8'));
   const html = htmlList.replace(/WORD_LIST/g, wordsData.map(word => `<li><a href="/${word.word}">${word.word}</a></li>`).join(''));
   res.send(html);
 });
@@ -68,7 +68,7 @@ app.patch('/stats/update', (req, res) => {
   const { word } = req.body;
   const delta = req.body.delta;
   let stats;
-  const statsPath = '/data/stats.json';
+  const statsPath = 'data/stats.json';
   try {
     stats = JSON.parse(fs.readFileSync(statsPath, 'utf8'));
   } catch (e) {
@@ -86,7 +86,7 @@ app.post('/matches/username', (req, res) => {
   console.log('update matches api');
 
   const { word, username } = req.body;
-  const matchesPath = '/data/matches.json';
+  const matchesPath = 'data/matches.json';
   let matches;
   try {
     matches = JSON.parse(fs.readFileSync(matchesPath, 'utf8'));
@@ -108,7 +108,7 @@ app.post('/matches/username', (req, res) => {
 
 app.delete('/matches/username', (req, res) => {
   const { word, username } = req.body;
-  const matchesPath = '/data/matches.json';
+  const matchesPath = 'data/matches.json';
   let matches;
   try {
     matches = JSON.parse(fs.readFileSync(matchesPath, 'utf8'));
@@ -124,7 +124,7 @@ app.delete('/matches/username', (req, res) => {
 
 app.get('/matches/list', (req, res) => {
   const { word } = req.query;
-  const matchesPath = '/data/matches.json';
+  const matchesPath = 'data/matches.json';
   const matches = JSON.parse(fs.readFileSync(matchesPath, 'utf8'));
 
   res.json({ matches: matches[word] || [] });
