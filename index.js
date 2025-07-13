@@ -10,7 +10,7 @@ app.get('/', (req, res) => {
   try {
     const stats = JSON.parse(fs.readFileSync('data/stats.json', 'utf8'));
     const top10 = Object.entries(stats).sort((a, b) => b[1] - a[1]).slice(0, 10);
-    html = html.replace(/TOP_WORDS_TITLE/g, 'Top des mots les plus vus');
+    html = html.replace(/TOP_WORDS_TITLE/g, 'Sélection des mots les plus appréciés');
     html = html.replace(/TOP_FAVORIS/g, top10.map(([word, count]) => `<li>${word}</li>`).join(''));
   } catch (e) {
     html = html.replace(/TOP_WORDS_TITLE/g, '');
